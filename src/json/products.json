@@ -1,1 +1,8 @@
-[{"id":1,"name":"zapatillas nike","price":"299","description":"dasdas"}]
+[
+  {
+    "id": 1,
+    "name": "zapatillas nike",
+    "price": "299",
+    "description": "dasdas"
+  }
+]
