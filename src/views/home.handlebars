@@ -1,11 +1,12 @@
 {{#if products.length}}
     {{#each products }}
     <ul>
-        <li>{{title}}</li>
+        <li>{{this.name}}</li>
         <li>${{price}}</li>
-        <li>{{description}}</li>
+        <li>{{this.description}}</li>
     </ul>
     {{/each}}
 {{else}}
-    <h1>No hay productos para mostrar. Desea agregar productos?</h1>
+    <h1>No hay productos</h1>
 {{/if}}
+    <button id="realTimeProductsButton">Real Time Products</button>

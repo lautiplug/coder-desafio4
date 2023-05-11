@@ -1,14 +1,18 @@
 <h2>Socket cliente</h2>
 
-<form id="form">
-  <label>product:</label><input type="text" name="name" id="name"/>
-  <label>price: </label><input type="text" name="price" id="price"/>
-  <label>Description: </label><input type="text" name="description" id="description"/>
+<form style="display: flex; flex-direction: column; gap: 10px; width: 400px; margin: 0 auto; margin-top: 150px; border: 1px solid gray; padding: 20px" id="form">
+  <label style="font-family: 'Helvetica'; font-weight: bold;">Product: </label><input style="padding: 10px;" type="text" name="name" id="name" placeholder="Nombre Producto"/>
+  <label style="font-family: 'Helvetica'; font-weight: bold;">Price: </label><input style="padding: 10px;" type="text" name="price" id="price" placeholder="Precio"/>
+  <label style="font-family: 'Helvetica'; font-weight: bold;">Description: </label><input style="height: 50px" type="text" name="description" id="description" placeholder="Descripcion"/>
   <input type="submit" value="send">
 </form>
 
-<p id="products">
-</p>
+<p id="products"></p>
+
+
+{{!-- navegacion con clicks, modo prueba --}}
+<div id="content"></div>
+<button id="homeButton">Home</button>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/index.js"></script>

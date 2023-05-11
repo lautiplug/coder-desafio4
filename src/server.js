@@ -27,12 +27,12 @@ socketServer.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Client disconnected');
     });
-    socket.on('nuevo-producto',async (producto) => {
-        await addProduct(producto.title, producto.price, producto.description);
+    socket.on('newProduct',async (producto) => {
+        await addProduct(producto.name, producto.price, producto.description);
         socketServer.emit('get-products', await getProducts());
         console.log('algo')
     });
-    socket.on('delete-product', async (id) => {
+    socket.on('deleteProduct', async (id) => {
         await deleteProduct(id);
         socketServer.emit('get-products', await getProducts());
     });

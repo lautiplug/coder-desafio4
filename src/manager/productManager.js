@@ -1,69 +1,60 @@
-import fs from 'fs'
-import { __dirname } from '../path.js';
+import fs from 'fs';
+import {__dirname} from '../path.js';
 
-const path = __dirname + '/json/products.json';
+const productsFilePath = __dirname + '/json/products.json';
 
-export const getProducts = async(limit) => {
-  try {
-    if (fs.existsSync(path)) {
-      const productos = await fs.promises.readFile(path, 'utf8');
-      const productosJS = JSON.parse(productos);
-      if (limit) {
-        return productosJS.slice(0, limit);
-      } else {
-        return productosJS;
-      }
-    } else {
-      return [];
+export const sumarId = async() => {
+    try {
+        let id = 0;
+        const products = await getProducts();
+        products.map(product => {
+            if (product.id > id) {
+                id = product.id;
+            }
+        });
+        return id + 1;
+    } catch (error) {
+        console.log(error);
     }
-  } catch (error) {
-    console.log(error);
-  }
 }
 
-export const addProduct = async(title, description, price, url, code, stock) => {
-  try {
-    const productosArchivo = await this.getProducts();
-    const codigoExistente = productosArchivo.find(
-      (producto) => producto.codigo === code
-    );
-
-    if (codigoExistente) {
-      console.log(`Ya existe un producto con el código ${code}`);
-    } else {
-      const ultimoProducto = productosArchivo[productosArchivo.length - 1];
-      const nuevoId = ultimoProducto ? ultimoProducto.id + 1 : this.idContador;
-      const producto = {
-        id: nuevoId,
-        nombre: title,
-        descripcion: description,
-        precio: price,
-        imagen: url,
-        codigo: code,
-        stock,
-      };
-
-      productosArchivo.push(producto);
-      await fs.promises.writeFile(this.path, JSON.stringify(productosArchivo));
+export const getProducts = async () => {
+    try {
+        if (fs.existsSync(productsFilePath)) {
+            const product = await fs.promises.readFile(productsFilePath, 'utf-8');
+            return JSON.parse(product);
+        } else {
+            return [];
+        }
+    } catch (error) {
+        console.log(error);
     }
-  } catch (error) {
-    console.log(error);
-  }
 }
 
-export const deleteProduct = async (idProducto) => {
-  try {
-    const productosArchivo = await this.getProducts();
-    const indiceProducto = productosArchivo.findIndex((producto) => producto.id === idProducto);
-
-    if (indiceProducto === -1) {
-      console.log('No se encontró el producto con el ID especificado');
-    } else {
-      productosArchivo.splice(indiceProducto, 1);
-      await fs.promises.writeFile(this.path, JSON.stringify(productosArchivo));
-      console.log(`Producto con ID ${idProducto} eliminado exitosamente`);
+export const addProduct = async (name ,price, description) => {
+    try {
+        const products = await getProducts();
+        const product = {
+            id: await sumarId(),
+            name,
+            price,
+            description
+        }
+        products.push(product);
+        fs.writeFileSync(productsFilePath, JSON.stringify(products));
+    } catch (error) {
+        console.log(error);
     }
-  } catch (error) {
-    console.log(error);
-  }
+}
+
+
+export const deleteProduct = async (id) => {
+    try {
+        let products = await getProducts();
+        let index = products.findIndex(product => product.id == id);
+        products.splice(index, 1);
+        fs.writeFileSync(productsFilePath, JSON.stringify(products));
+    } catch (error) {
+        console.log(error);
+    }
 }

@@ -1,9 +1,9 @@
 const socketClient = io();
-const form = document.querySelector('form');
+const form = document.getElementById('form');
 const inputName = document.getElementById('name');
 const inputPrice = document.getElementById('price');
 const inputDesc = document.getElementById('description');
-const products = document.querySelector('p');
+const products = document.getElementById('products');
 
 form.onsubmit = (e) => {
   e.preventDefault();
@@ -24,7 +24,7 @@ form.onsubmit = (e) => {
 socketClient.on('getProducts', (products) => {
   let data = '';
 
-  products.forEach((p, index) => {
+  products.forEach((p) => {
     data += `
       <div style="border: 1px solid black; margin-bottom: 10px; width: 450px;">
         <ul>
@@ -32,7 +32,7 @@ socketClient.on('getProducts', (products) => {
           <h2>Price: $${p.price}</h2>
           <h3>Description: ${p.description}</h3>
         </ul>
-        <button onclick="deleteProducto(${index})">Eliminar</button>
+        <button style="padding: 5px" onclick="deleteProduct(${p.id})">Eliminar</button>
       </div>
     `;
   });
@@ -41,5 +41,15 @@ socketClient.on('getProducts', (products) => {
 });
 
 function deleteProduct(id) {
-  socketClient.emit('deleteProducts', id);
+  socketClient.emit('deleteProduct', id);
 }
+
+const homeButton = document.getElementById('homeButton');
+homeButton.addEventListener('click', () => {
+  window.location.href = '/';
+});
+
+const realTimeProductsButton = document.getElementById('realTimeProductsButton');
+realTimeProductsButton.addEventListener('click', () => {
+  window.location.href = '/realtimeproducts';
+});
