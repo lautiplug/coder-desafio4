@@ -1,6 +1,6 @@
 import express from 'express';
 import { __dirname } from './path.js';
-import {Server} from 'socket.io'
+import { Server } from 'socket.io'
 import handlebars from 'express-handlebars'
 import viewsRoutes from './routes/viewRoutes.js';
 import { addProduct, getProducts, deleteProduct } from './manager/productManager.js';
@@ -17,7 +17,7 @@ app.set('views', __dirname + '/views')
 app.use("/", viewsRoutes);
 
 const httpServer = app.listen(8080, () => {
-console.log('Server is running on port 8080');
+    console.log('Server is running on port 8080');
 });
 
 const socketServer = new Server(httpServer);
@@ -27,13 +27,16 @@ socketServer.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Client disconnected');
     });
-    socket.on('newProduct',async (producto) => {
+    socket.on('newProduct', async (producto) => {
         await addProduct(producto.name, producto.price, producto.description);
-        socketServer.emit('get-products', await getProducts());
-        console.log('algo')
+        const products = await getProducts();
+        socketServer.emit('getProducts', products);
     });
     socket.on('deleteProduct', async (id) => {
         await deleteProduct(id);
-        socketServer.emit('get-products', await getProducts());
+        const products = await getProducts();
+        socketServer.emit('deleteProduct', id);
+        socketServer.emit('getProducts', products);
     });
 });
+

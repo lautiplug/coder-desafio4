@@ -37,19 +37,17 @@ socketClient.on('getProducts', (products) => {
     `;
   });
 
-  products.innerHTML = data;
+  const productsContainer = document.getElementById('products');
+  productsContainer.innerHTML = data;
+});
+
+socketClient.on('deleteProduct', (id) => {
+  const productElement = document.getElementById(id);
+  if (productElement) {
+    productElement.remove();
+  }
 });
 
 function deleteProduct(id) {
   socketClient.emit('deleteProduct', id);
 }
-
-const homeButton = document.getElementById('homeButton');
-homeButton.addEventListener('click', () => {
-  window.location.href = '/';
-});
-
-const realTimeProductsButton = document.getElementById('realTimeProductsButton');
-realTimeProductsButton.addEventListener('click', () => {
-  window.location.href = '/realtimeproducts';
-});

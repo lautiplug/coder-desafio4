@@ -1,12 +1,14 @@
 {{#if products.length}}
-    {{#each products }}
+  {{#each products }}
+  <div style="border: 1px solid black; margin-bottom: 10px; width: 450px;">
     <ul>
-        <li>{{this.name}}</li>
-        <li>${{price}}</li>
-        <li>{{this.description}}</li>
+      <h1>{{this.name}}</h1>
+      <h2>Price: ${{price}}</h2>
+      <h3>Description: {{this.description}}</h3>
     </ul>
-    {{/each}}
+    <button style="padding: 5px" onclick="deleteProduct('{{this.id}}')">Eliminar</button>
+  </div>
+  {{/each}}
 {{else}}
-    <h1>No hay productos</h1>
+  <h1>No hay productos</h1>
 {{/if}}
-    <button id="realTimeProductsButton">Real Time Products</button>
