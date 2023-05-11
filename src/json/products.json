@@ -1,8 +1,1 @@
-[
-  {
-    "id": 1,
-    "name": "zapatillas nike",
-    "price": "299",
-    "description": "dasdas"
-  }
-]
+[{"id":1,"name":"zapatillas nike","price":"299","description":"dasdas"},{"id":2,"name":"zapatillas nike","price":"299","description":"esta es una descripcion"}]
